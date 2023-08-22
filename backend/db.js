@@ -9,7 +9,7 @@ const connectToMongoDB = async () => {
         .catch((err) => {
             console.log("Database connection failed. Server not started");
             console.log(err);
-        });
+        }); 
 };
 
 module.exports = connectToMongoDB;
