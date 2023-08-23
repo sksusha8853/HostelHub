@@ -30,10 +30,6 @@ const StaffSchema = new Schema({
     contactNumber:{
         type: String,
         required: true
-    },
-    hostel:{
-        type: String,
-        default: "NA"
     }
 });
 
