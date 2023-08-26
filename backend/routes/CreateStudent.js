@@ -2,6 +2,10 @@ const express = require('express')
 const router = express.Router()
 const Student = require('../models/Student')
 const { body, validationResult } = require('express-validator');
+const jwt = require("jsonwebtoken")
+const bcrypt = require("bcryptjs");
+
+
 router.post("/createstudent", [
     body('email').isEmail(),
     body('password', 'Password cannot be less than 8 characters.').isLength({ min: 8 }),
@@ -14,10 +18,13 @@ router.post("/createstudent", [
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
+
+        const salt = await bcrypt.genSalt(11);
+        let secPassword = await bcrypt.hash(req.body.password, salt)
         try {
             await Student.create({
                 email: req.body.email,
-                password: req.body.password,
+                password: secPassword,
                 name: req.body.name,
                 gender: req.body.gender,
                 address: req.body.address,
