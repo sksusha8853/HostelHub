@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 export default function Login() {
   const [credentials, setcredentials] = useState({ email: "", password: "" })
   const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch("http://localhost:5000/api/login", {
@@ -14,7 +13,7 @@ export default function Login() {
       },
       body: JSON.stringify({ email: credentials.email, password: credentials.password })
     });
-    
+
     const json = await response.json()
     console.log(json)
 
@@ -22,6 +21,7 @@ export default function Login() {
       alert("Enter Valid credentials")
     }
     else {
+      localStorage.setItem("authToken", json.authToken)
       navigate("/");
     }
   }
@@ -29,6 +29,12 @@ export default function Login() {
   const onChange = (event) => {
     setcredentials({ ...credentials, [event.target.name]: event.target.value })
   }
+
+  useEffect(() => {
+    if (localStorage.getItem("authToken")) {
+      navigate("/");
+    }
+  }, [])
 
   return (
     <>

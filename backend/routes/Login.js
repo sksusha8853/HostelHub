@@ -3,6 +3,9 @@ const router = express.Router()
 const Staff = require('../models/Staff')
 const Student = require('../models/Student')
 const { body, validationResult } = require('express-validator');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken")
+const jwtSecret = process.env.JWT_SECRET
 
 router.post("/login", [
     body('email').isEmail()
@@ -13,29 +16,40 @@ router.post("/login", [
     }
     let email = req.body.email;
     try {
+        let userId;
         let studentData = await Student.findOne({ email });
         if (studentData) {
-            if (req.body.password != studentData.password) {
+            const pwdCompare = await bcrypt.compare(req.body.password, studentData.password);
+            if (!pwdCompare) {
                 return res.status(400).json({ errors: "Please enter correct credentials" })
             }
             else {
-                return res.json({ success: true })
+                userId = studentData.id;
             }
         }
         else {
             let staffData = await Staff.findOne({ email });
             if (staffData) {
-                if (req.body.password != staffData.password) {
+                const pwdCompare = await bcrypt.compare(req.body.password, staffData.password);
+                if (!pwdCompare) {
                     return res.status(400).json({ errors: "Please enter correct credentials" })
                 }
                 else {
-                    return res.json({ success: true });
+                    userId = studentData.id;
                 }
             }
             else {
                 return res.status(400).json({ errors: "Please enter correct credentials" })
             }
         }
+        const data = {
+            user: {
+                id: userId
+            }
+        }
+
+        const authToken = jwt.sign(data, jwtSecret)
+        return res.json({ success: true, authToken:authToken})
     } catch (error) {
         console.log(error)
         res.json({ success: false });
