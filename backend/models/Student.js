@@ -27,6 +27,10 @@ const StudentSchema = new Schema({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        default: "student"
+    },
     hostel:{
         type: String,
         default: "NA"

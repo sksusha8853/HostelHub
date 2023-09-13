@@ -1,31 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { getAuthActions } from '../app/actions/authActions'
+import { connect, useSelector } from 'react-redux';
 
-export default function SignupStudent() {
+const SignupStudent = ({ registerStudent }) => {
   const [credentials, setcredentials] = useState({ name: "", email: "", password: "", gender: "", address: "", contactNumber: "", hostel: "", flatNumber: "", roomNumber: "" })
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.userDetails);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/createstudent", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name: credentials.name, email: credentials.email, password: credentials.password, gender: credentials.gender, address: credentials.address, contactNumber: credentials.contactNumber, hostel: credentials.hostel, flatNumber: credentials.flatNumber, roomNumber: credentials.roomNumber })
-    });
-    const json = await response.json()
-    console.log(json)
-
-    if (!json.success) {
-      alert("Enter Valid credentials")
-    }
+    const userDetails = {
+      name: credentials.name,
+      email: credentials.email,
+      password: credentials.password,
+      gender: credentials.gender, address: credentials.address, contactNumber: credentials.contactNumber, hostel: credentials.hostel, flatNumber: credentials.flatNumber, roomNumber: credentials.roomNumber
+    };
+    registerStudent(userDetails, navigate);
   }
 
   const onChange = (event) => {
     setcredentials({ ...credentials, [event.target.name]: event.target.value })
   }
   useEffect(() => {
-    if (localStorage.getItem("authToken")) {
+    if (user) {
       navigate("/");
     }
   }, [])
@@ -77,3 +74,10 @@ export default function SignupStudent() {
     </>
   )
 }
+
+const mapActionsToProps = (dispatch) => {
+  return {
+    ...getAuthActions(dispatch),
+  };
+};
+export default connect(null, mapActionsToProps)(SignupStudent);

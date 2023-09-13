@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from 'react'
+import { connect, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
+import { getAuthActions } from '../app/actions/authActions';
 
-export default function Login() {
+const Login = ({login}) => {
   const [credentials, setcredentials] = useState({ email: "", password: "" })
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.userDetails);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/login", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email: credentials.email, password: credentials.password })
-    });
+    const userDetails = {
+      email: credentials.email,
+      password: credentials.password,
+    };
+    login(userDetails, navigate);
 
-    const json = await response.json()
-    console.log(json)
+  //   const json = useSelector((state) => state.user);
+  //   console.log(json)
 
-    if (!json.success) {
-      alert("Enter Valid credentials")
-    }
-    else {
-      localStorage.setItem("authToken", json.authToken)
-      navigate("/");
-    }
+  //   if (!json.success) {
+  //     alert("Enter Valid credentials")
+  //   }
+  //   else {
+  //     localStorage.setItem("authToken", json.authToken)
+  //     navigate("/");
+  //   }
   }
 
   const onChange = (event) => {
@@ -31,7 +32,7 @@ export default function Login() {
   }
 
   useEffect(() => {
-    if (localStorage.getItem("authToken")) {
+    if (user) {
       navigate("/");
     }
   }, [])
@@ -54,4 +55,12 @@ export default function Login() {
       </div>
     </>
   )
-}
+};
+
+const mapActionsToProps = (dispatch) => {
+  return {
+    ...getAuthActions(dispatch),
+  };
+};
+
+export default connect(null, mapActionsToProps)(Login);
