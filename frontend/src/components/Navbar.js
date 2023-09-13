@@ -1,10 +1,13 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useSelector, connect } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { getAuthActions } from '../app/actions/authActions';
 
-export default function Navbar() {
+const Navbar = ({setUserDetails}) => {
     const navigate = useNavigate();
+    const user = useSelector((state) => state.auth.userDetails);
     const handleLogout = () => {
-        localStorage.removeItem("authToken");
+        setUserDetails(null);
         navigate("/");
     }
     return (
@@ -20,7 +23,7 @@ export default function Navbar() {
                             <li className='nav-item'>
                                 <Link className='nav-link' aria-current="page" to="/">Home</Link>
                             </li>
-                            {(!localStorage.getItem("authToken")) ?
+                            {(!user) ?
                                 <div>
                                     <li className='nav-item'>
                                         <Link className='nav-link' to="/signupstudent">SignupStudent</Link>
@@ -45,3 +48,11 @@ export default function Navbar() {
         </div>
     )
 }
+
+const mapActionsToProps = (dispatch) => {
+    return {
+      ...getAuthActions(dispatch),
+    };
+  };
+  
+  export default connect(null, mapActionsToProps)(Navbar);

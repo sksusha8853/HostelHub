@@ -1,33 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { getAuthActions } from '../app/actions/authActions'
+import { connect, useSelector } from 'react-redux';
 
-export default function SignupStaff() {
+const SignupStaff = ({ registerStaff }) => {
   const [credentials, setcredentials] = useState({ name: "", email: "", password: "", gender: "", role: "", address: "", contactNumber: "" })
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.userDetails);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const userDetails = {
+      name: credentials.name,
+      email: credentials.email,
+      password: credentials.password,
+      gender: credentials.gender,
+      address: credentials.address,
+      contactNumber: credentials.contactNumber,
+      role: credentials.role
+    };
+    registerStaff(userDetails, navigate);
 
-    const response = await fetch("http://localhost:5000/api/createstaff", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name: credentials.name, email: credentials.email, password: credentials.password, gender: credentials.gender, role: credentials.role, address: credentials.address, contactNumber: credentials.contactNumber })
-    });
-
-    const json = await response.json()
-    console.log(json)
-
-    if (!json.success) {
-      alert("Enter Valid credentials")
-    }
   }
 
   const onChange = (event) => {
     setcredentials({ ...credentials, [event.target.name]: event.target.value })
   }
   useEffect(() => {
-    if (localStorage.getItem("authToken")) {
+    if (user) {
       navigate("/");
     }
   }, [])
@@ -71,3 +70,10 @@ export default function SignupStaff() {
     </>
   )
 }
+
+const mapActionsToProps = (dispatch) => {
+  return {
+    ...getAuthActions(dispatch),
+  };
+};
+export default connect(null, mapActionsToProps)(SignupStaff);
