@@ -56,3 +56,51 @@ export const registerStaff = async (data) => {
   }
 };
 
+export const postComplaint = async (data) => {
+  try {
+    console.log("data", data);
+    return await apiClient.post("/createcomplaint", data);
+  } catch (exception) {
+    return {
+      error: true,
+      exception,
+    };
+  }
+};
+
+
+export const postSuggestion = async (data) => {
+  try {
+    console.log("data", data);
+    return await apiClient.post("/createsuggestion", data);
+  } catch (exception) {
+    return {
+      error: true,
+      exception,
+    };
+  }
+};
+
+export const getAllComplaints = async (data) => {
+  try {
+    console.log("data", data);
+    return await apiClient.get("/getAllComplaints", data);
+  } catch (exception) {
+    return {
+      error: true,
+      exception,
+    };
+  }
+};
+
+export const getAllSuggestions = async (data) => {
+  try {
+    console.log("data", data);
+    return await apiClient.get("/getAllSuggestions", data);
+  } catch (exception) {
+    return {
+      error: true,
+      exception,
+    };
+  }
+};

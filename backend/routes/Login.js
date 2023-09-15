@@ -11,10 +11,10 @@ router.post("/login", async (req, res) => {
     try {
         console.log('req', req)
         const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-    let email = req.body.email;
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        let email = req.body.email;
         let userData;
         let studentData = await Student.findOne({ email });
         if (studentData) {
@@ -43,7 +43,7 @@ router.post("/login", async (req, res) => {
         }
         // const authToken = jwt.sign(data, jwtSecret)
         // console.log('authToken', authToken)
-        return res.json({ success: true, authToken:userData})
+        return res.json({ success: true, authToken: userData })
     } catch (error) {
         console.log(error)
         res.json({ success: false });
