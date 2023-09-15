@@ -15,6 +15,10 @@ import Login from "./screens/Login";
 import SignupStudent from "./screens/SignupStudent";
 import SignupStaff from "./screens/SignupStaff";
 import Profile from "./screens/Profile";
+import Complaint from "./screens/Complaint";
+import Suggestion from "./screens/Suggestion";
+import ShowComplaints from "./screens/ShowComplaints";
+import ShowSuggestions from "./screens/ShowSuggestions";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -52,6 +56,22 @@ const router = createBrowserRouter([
   {
     path: "/profile",
     element: <Profile />,
+  },
+  {
+    path: "/complaint",
+    element: <Complaint />,
+  },
+  {
+    path: "/suggestion",
+    element: <Suggestion />,
+  },
+  {
+    path: "/showComplaints",
+    element: <ShowComplaints />,
+  },
+  {
+    path: "/showSuggestions",
+    element: <ShowSuggestions />,
   }
 ]);
 
