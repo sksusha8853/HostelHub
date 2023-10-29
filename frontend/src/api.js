@@ -68,6 +68,17 @@ export const postComplaint = async (data) => {
   }
 };
 
+export const postAnnouncement = async (data) => {
+  try {
+    console.log("data", data);
+    return await apiClient.post("/createannouncement", data);
+  } catch (exception) {
+    return {
+      error: true,
+      exception,
+    };
+  }
+};
 
 export const postSuggestion = async (data) => {
   try {

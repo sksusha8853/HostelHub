@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api', require("./routes/CreateStudent"));
+app.use('/api', require("./routes/CreateAnnouncement"));
 app.use('/api', require("./routes/CreateStaff"));
 app.use('/api', require("./routes/Login"));
 app.use('/api', require("./routes/CreateComplaint"));

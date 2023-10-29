@@ -19,6 +19,7 @@ import Complaint from "./screens/Complaint";
 import Suggestion from "./screens/Suggestion";
 import ShowComplaints from "./screens/ShowComplaints";
 import ShowSuggestions from "./screens/ShowSuggestions";
+import Announcement from "./screens/Announcement";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: "/complaint",
     element: <Complaint />,
+  },
+  {
+    path: "/announcement",
+    element: <Announcement />,
   },
   {
     path: "/suggestion",

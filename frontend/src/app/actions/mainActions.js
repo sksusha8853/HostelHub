@@ -9,7 +9,8 @@ export const getMainActions = (dispatch) => {
         postComplaint: (complainDetails, navigate) => dispatch(postComplaint(complainDetails, navigate)),
         getAllComplaints:(userDetails, navigate) => dispatch(getAllComplaints(userDetails,navigate)),
         postSuggestion: (suggestionDetails, navigate) => dispatch(postSuggestion(suggestionDetails, navigate)),
-        getAllSuggestions:(userDetails, navigate) => dispatch(getAllSuggestions(userDetails, navigate))
+        getAllSuggestions:(userDetails, navigate) => dispatch(getAllSuggestions(userDetails, navigate)),
+        postAnnouncement:(announcementDetails, navigate) => dispatch(postAnnouncement(announcementDetails, navigate))
     };
 };
 
@@ -35,6 +36,23 @@ export const postSuggestion = (suggestionDetails, navigate) => {
     return async (dispatch) => {
         console.log(suggestionDetails);
         const response = await api.postSuggestion(suggestionDetails);
+        if (response.error) {
+            console.log("response", response);
+        } else {
+            console.log('response', response)
+            const { success } = response?.data;
+            console.log(response);
+            if (success) {
+                navigate("/");
+            }
+        }
+    };
+};
+
+export const postAnnouncement = (announcementDetails, navigate) => {
+    return async (dispatch) => {
+        console.log(announcementDetails);
+        const response = await api.postAnnouncement(announcementDetails);
         if (response.error) {
             console.log("response", response);
         } else {
