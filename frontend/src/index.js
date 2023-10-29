@@ -20,6 +20,8 @@ import Suggestion from "./screens/Suggestion";
 import ShowComplaints from "./screens/ShowComplaints";
 import ShowSuggestions from "./screens/ShowSuggestions";
 import Announcement from "./screens/Announcement";
+import ShowAnnouncements from "./screens/ShowAnnouncements";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -77,7 +79,12 @@ const router = createBrowserRouter([
   {
     path: "/showSuggestions",
     element: <ShowSuggestions />,
-  }
+  },
+  {
+    path: "/showAnnouncements",
+    element: <ShowAnnouncements />,
+  },
+
 ]);
 
 root.render(

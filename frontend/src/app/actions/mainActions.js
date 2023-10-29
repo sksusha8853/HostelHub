@@ -10,6 +10,7 @@ export const getMainActions = (dispatch) => {
         getAllComplaints:(userDetails, navigate) => dispatch(getAllComplaints(userDetails,navigate)),
         postSuggestion: (suggestionDetails, navigate) => dispatch(postSuggestion(suggestionDetails, navigate)),
         getAllSuggestions:(userDetails, navigate) => dispatch(getAllSuggestions(userDetails, navigate)),
+        getAllAnnouncements:(userDetails, navigate) => dispatch(getAllAnnouncements(userDetails, navigate)),
         postAnnouncement:(announcementDetails, navigate) => dispatch(postAnnouncement(announcementDetails, navigate))
     };
 };
@@ -90,6 +91,20 @@ export const getAllSuggestions = (userDetails, setData, navigate) => {
             setData(suggestions);
             console.log('suggestions', suggestions)
             return suggestions;
+        }
+    };
+};
+
+export const getAllAnnouncements = (announcementDetails, setData, navigate) => {
+    return async (dispatch) => {
+        const response = await api.getAllAnnouncements(announcementDetails);
+        if (response.error) {
+            console.log("response", response);
+        } else {
+            const { success, announcements } = response?.data;
+            setData(announcements);
+            console.log('announcements', announcements)
+            return announcements;
         }
     };
 };

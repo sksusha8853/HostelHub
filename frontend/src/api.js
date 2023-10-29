@@ -115,3 +115,14 @@ export const getAllSuggestions = async (data) => {
     };
   }
 };
+export const getAllAnnouncements = async (data) => {
+  try {
+    console.log("data", data);
+    return await apiClient.get("/getAllAnnouncements", data);
+  } catch (exception) {
+    return {
+      error: true,
+      exception,
+    };
+  }
+};

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { getMainActions } from '../app/actions/mainActions';
 
-const ShowComplaints = ({getAllComplaints}) => {
+const ShowAnnouncements = ({getAllAnnouncements}) => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.userDetails);
@@ -12,15 +12,15 @@ const ShowComplaints = ({getAllComplaints}) => {
   useEffect(() => {
     // Replace 'apiEndpoint' with the actual API endpoint provided by your backend
     if (!user) {
-      navigate("/login");
-    }else{
-      const userDetails = {
-        role:user.role,
-        email:user.email
+        navigate("/login");
       }
-      getAllComplaints(userDetails,setData, navigate);
-    }
-    
+      else{
+        const userDetails = {
+          role:user.role,
+          email:user.email
+        }
+        getAllAnnouncements(userDetails,setData, navigate);
+      }
   }, []); // The empty dependency array ensures that this effect runs once when the component mounts
 
   return (
@@ -46,4 +46,4 @@ const mapActionsToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapActionsToProps)(ShowComplaints);
+export default connect(null, mapActionsToProps)(ShowAnnouncements);

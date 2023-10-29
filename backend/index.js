@@ -31,6 +31,7 @@ app.use('/api', require("./routes/CreateComplaint"));
 app.use('/api', require("./routes/CreateSuggestion"));
 app.use('/api', require("./routes/GetAllComplaints"));
 app.use('/api', require("./routes/GetAllSuggestions"));
+app.use('/api', require("./routes/GetAllAnnouncements"));
 app.listen(process.env.API_PORT, () => {
     console.log(`App listening on port ${process.env.API_PORT}`);
 });
