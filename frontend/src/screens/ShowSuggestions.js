@@ -4,18 +4,22 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { getMainActions } from '../app/actions/mainActions';
 
-const ShowSuggestions = ({getAllSuggestions}) => {
+const ShowSuggestions = ({ getAllSuggestions }) => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.userDetails);
 
   useEffect(() => {
     // Replace 'apiEndpoint' with the actual API endpoint provided by your backend
-    const userDetails = {
-      role:user.role,
-      email:user.email
+    if (!user) {
+      navigate("/login");
+    } else {
+      const userDetails = {
+        role: user.role,
+        email: user.email
+      }
+      getAllSuggestions(userDetails, setData, navigate);
     }
-    getAllSuggestions(userDetails,setData, navigate);
   }, []); // The empty dependency array ensures that this effect runs once when the component mounts
 
   return (

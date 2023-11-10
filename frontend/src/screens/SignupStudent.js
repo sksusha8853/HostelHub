@@ -55,18 +55,6 @@ const SignupStudent = ({ registerStudent }) => {
             <label htmlFor='contactNumber' className='form-label'>Contact Number</label>
             <input type='text' className='form-control' name='contactNumber' value={credentials.contactNumber} onChange={onChange} />
           </div>
-          <div className='mb-3'>
-            <label htmlFor='hostel' className='form-label'>Hostel</label>
-            <input type='text' className='form-control' name='hostel' value={credentials.hostel} onChange={onChange} />
-          </div>
-          <div className='mb-3'>
-            <label htmlFor='flatNumber' className='form-label'>Flat Number</label>
-            <input type='text' className='form-control' name='flatNumber' value={credentials.flatNumber} onChange={onChange} />
-          </div>
-          <div className='mb-3'>
-            <label htmlFor='roomNumber' className='form-label'>Room Number</label>
-            <input type='text' className='form-control' name='roomNumber' value={credentials.roomNumber} onChange={onChange} />
-          </div>
           <button type="submit" className='m-3 btn btn-success'>Submit</button>
           <Link to="/login" className='m-3 btn btn-danger'>Already a user?</Link>
         </form>

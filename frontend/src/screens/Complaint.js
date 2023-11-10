@@ -3,8 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { getMainActions } from '../app/actions/mainActions';
 import { connect, useSelector } from 'react-redux';
 
-const Complaint = ({postComplaint}) => {
-    const [credentials, setcredentials] = useState({ subject: "", description: ""})
+const Complaint = ({ postComplaint }) => {
+  const [credentials, setcredentials] = useState({ subject: "", description: "" })
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.userDetails);
   const handleSubmit = async (e) => {
@@ -14,8 +14,8 @@ const Complaint = ({postComplaint}) => {
       subject: credentials.subject,
       description: credentials.description
     };
-    
-    postComplaint(complaintDetails,navigate);
+
+    postComplaint(complaintDetails, navigate);
   }
 
   const onChange = (event) => {
@@ -33,10 +33,10 @@ const Complaint = ({postComplaint}) => {
         <form onSubmit={handleSubmit}>
           <div className='mb-3'>
             <label htmlFor='email' className='form-label'>Email</label>
-            <input type='text' className='form-control' name='email' value={user.email}/>
+            <input type='text' className='form-control' name='email' value={user.email} />
           </div>
-         
-         
+
+
           <div className='mb-3'>
             <label htmlFor='subject' className='form-label'>Subject</label>
             <input type='text' className='form-control' name='subject' value={credentials.subject} onChange={onChange} />
@@ -45,7 +45,7 @@ const Complaint = ({postComplaint}) => {
             <label htmlFor='description' className='form-label'>Description</label>
             <input type='text' className='form-control' name='description' value={credentials.description} onChange={onChange} />
           </div>
-         
+
           <button type="submit" className='m-3 btn btn-success'>Submit</button>
         </form>
       </div>
