@@ -1,61 +1,118 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { getMainActions } from '../app/actions/mainActions';
-import { connect, useSelector } from 'react-redux';
+import React, { useEffect } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import { Container } from "@mui/material";
+import { getMainActions } from "../app/actions/mainActions";
+import { connect, useSelector } from "react-redux";
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
-const Complaint = ({postComplaint}) => {
-    const [credentials, setcredentials] = useState({ subject: "", description: ""})
-  const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.userDetails);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const complaintDetails = {
-      email: user.email,
-      subject: credentials.subject,
-      description: credentials.description
-    };
-    
-    postComplaint(complaintDetails,navigate);
-  }
+const defaultTheme = createTheme();
 
-  const onChange = (event) => {
-    setcredentials({ ...credentials, [event.target.name]: event.target.value })
-  }
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
+const Complaint = ({ postComplaint }) => {
+    const navigate = useNavigate();
+    const user = useSelector((state) => state.auth.userDetails);
+    useEffect(() => {
+        if (!user) {
+            navigate("/login");
+        }
+    }, [])
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        const complaintDetails = {
+            email: data.get("email"),
+            subject: data.get("subject"),
+            description: data.get("description"),
+        };
+        postComplaint(complaintDetails, navigate);
     }
-  }, [])
 
-  return (
-    <>
-      <div className='container'>
-        <form onSubmit={handleSubmit}>
-          <div className='mb-3'>
-            <label htmlFor='email' className='form-label'>Email</label>
-            <input type='text' className='form-control' name='email' value={user.email}/>
-          </div>
-         
-         
-          <div className='mb-3'>
-            <label htmlFor='subject' className='form-label'>Subject</label>
-            <input type='text' className='form-control' name='subject' value={credentials.subject} onChange={onChange} />
-          </div>
-          <div className='mb-3'>
-            <label htmlFor='description' className='form-label'>Description</label>
-            <input type='text' className='form-control' name='description' value={credentials.description} onChange={onChange} />
-          </div>
-         
-          <button type="submit" className='m-3 btn btn-success'>Submit</button>
-        </form>
-      </div>
-    </>
-  )
-}
+    return (
+        <>
+            <div><Navbar /></div>
+            <ThemeProvider theme={defaultTheme}>
+                <Container component="main" maxWidth="md">
+                    <CssBaseline />
+                    <Box
+                        sx={{
+                            marginTop: 10,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
+                        <Typography component="h1" variant="h5">
+                            Complaint
+                        </Typography>
+                        <Box
+                            component="form"
+                            noValidate
+                            onSubmit={handleSubmit}
+                            sx={{ mt: 3 }}
+                        >
+
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        id="email"
+                                        label="Email"
+                                        value={user.email}
+                                        name="email"
+                                        autoComplete="email"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        name="subject"
+                                        label="Subject"
+                                        id="subject"
+                                        autoComplete="subject"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        multiline
+                                        rows={4}
+                                        fullWidth
+                                        id="description"
+                                        label="Description"
+                                        name="description"
+                                        autoComplete="description"
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                Send
+                            </Button>
+                        </Box>
+                    </Box>
+                </Container>
+            </ThemeProvider>
+            <div><Footer /></div>
+        </>
+    );
+};
 
 const mapActionsToProps = (dispatch) => {
-  return {
-    ...getMainActions(dispatch),
-  };
+    return {
+        ...getMainActions(dispatch),
+    };
 };
 export default connect(null, mapActionsToProps)(Complaint);

@@ -23,62 +23,62 @@ import ShowSuggestions from "./screens/ShowSuggestions";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const persistConfig = {
-  key: "root",
-  storage,
+    key: "root",
+    storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore(
-  {
-    reducer: persistedReducer,
-  },
-  composeWithDevTools(applyMiddleware(thunk))
+    {
+        reducer: persistedReducer,
+    },
+    composeWithDevTools(applyMiddleware(thunk))
 );
 const persistor = persistStore(store);
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/login",
-    element: <Login/>,
-  },
-  {
-    path: "/signupstudent",
-    element: <SignupStudent />,
-  },
-  {
-    path: "/signupstaff",
-    element: <SignupStaff />,
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
-  },
-  {
-    path: "/complaint",
-    element: <Complaint />,
-  },
-  {
-    path: "/suggestion",
-    element: <Suggestion />,
-  },
-  {
-    path: "/showComplaints",
-    element: <ShowComplaints />,
-  },
-  {
-    path: "/showSuggestions",
-    element: <ShowSuggestions />,
-  }
+    {
+        path: "/",
+        element: <Home />,
+    },
+    {
+        path: "/login",
+        element: <Login />,
+    },
+    {
+        path: "/signupstudent",
+        element: <SignupStudent />,
+    },
+    {
+        path: "/signupstaff",
+        element: <SignupStaff />,
+    },
+    {
+        path: "/profile",
+        element: <Profile />,
+    },
+    {
+        path: "/complaint",
+        element: <Complaint />,
+    },
+    {
+        path: "/suggestion",
+        element: <Suggestion />,
+    },
+    {
+        path: "/showComplaints",
+        element: <ShowComplaints />,
+    },
+    {
+        path: "/showSuggestions",
+        element: <ShowSuggestions />,
+    }
 ]);
 
 root.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-        <RouterProvider router={router}></RouterProvider>
-    </PersistGate>
-  </Provider>
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+            <RouterProvider router={router}></RouterProvider>
+        </PersistGate>
+    </Provider>
 );

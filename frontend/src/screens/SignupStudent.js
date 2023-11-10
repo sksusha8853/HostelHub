@@ -1,83 +1,182 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { getAuthActions } from '../app/actions/authActions'
-import { connect, useSelector } from 'react-redux';
+import React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import { Container } from "@mui/material";
+import { getAuthActions } from "../app/actions/authActions";
+import { connect } from "react-redux";
+
+const defaultTheme = createTheme();
 
 const SignupStudent = ({ registerStudent }) => {
-  const [credentials, setcredentials] = useState({ name: "", email: "", password: "", gender: "", address: "", contactNumber: "", hostel: "", flatNumber: "", roomNumber: "" })
-  const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.userDetails);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const userDetails = {
-      name: credentials.name,
-      email: credentials.email,
-      password: credentials.password,
-      gender: credentials.gender, address: credentials.address, contactNumber: credentials.contactNumber, hostel: credentials.hostel, flatNumber: credentials.flatNumber, roomNumber: credentials.roomNumber
-    };
-    registerStudent(userDetails, navigate);
-  }
+    const navigate = useNavigate();
 
-  const onChange = (event) => {
-    setcredentials({ ...credentials, [event.target.name]: event.target.value })
-  }
-  useEffect(() => {
-    if (user) {
-      navigate("/");
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        const userDetails = {
+            name: data.get("name"),
+            email: data.get("email"),
+            password: data.get("password"),
+            gender: data.get("gender"),
+            address: data.get("address"),
+            contactNumber: data.get("contactNumber"),
+            hostel: data.get("hostel"),
+            flatNumber: data.get("flatNumber"),
+            roomNumber: data.get("roomNumber"),
+        };
+        registerStudent(userDetails, navigate);
     }
-  }, [])
 
-  return (
-    <>
-      <div className='container'>
-        <form onSubmit={handleSubmit}>
-          <div className='mb-3'>
-            <label htmlFor='name' className='form-label'>Name</label>
-            <input type='text' className='form-control' name='name' value={credentials.name} onChange={onChange} />
-          </div>
-          <div className='mb-3'>
-            <label htmlFor='email' className='form-label'>Email address</label>
-            <input type='text' className='form-control' name='email' value={credentials.email} onChange={onChange} />
-          </div>
-          <div className='mb-3'>
-            <label htmlFor='password' className='form-label'>Password</label>
-            <input type='password' className='form-control' name='password' value={credentials.password} onChange={onChange} />
-          </div>
-          <div className='mb-3'>
-            <label htmlFor='gender' className='form-label'>Gender</label>
-            <input type='text' className='form-control' name='gender' value={credentials.gender} onChange={onChange} />
-          </div>
-          <div className='mb-3'>
-            <label htmlFor='address' className='form-label'>Address</label>
-            <input type='text' className='form-control' name='address' value={credentials.address} onChange={onChange} />
-          </div>
-          <div className='mb-3'>
-            <label htmlFor='contactNumber' className='form-label'>Contact Number</label>
-            <input type='text' className='form-control' name='contactNumber' value={credentials.contactNumber} onChange={onChange} />
-          </div>
-          <div className='mb-3'>
-            <label htmlFor='hostel' className='form-label'>Hostel</label>
-            <input type='text' className='form-control' name='hostel' value={credentials.hostel} onChange={onChange} />
-          </div>
-          <div className='mb-3'>
-            <label htmlFor='flatNumber' className='form-label'>Flat Number</label>
-            <input type='text' className='form-control' name='flatNumber' value={credentials.flatNumber} onChange={onChange} />
-          </div>
-          <div className='mb-3'>
-            <label htmlFor='roomNumber' className='form-label'>Room Number</label>
-            <input type='text' className='form-control' name='roomNumber' value={credentials.roomNumber} onChange={onChange} />
-          </div>
-          <button type="submit" className='m-3 btn btn-success'>Submit</button>
-          <Link to="/login" className='m-3 btn btn-danger'>Already a user?</Link>
-        </form>
-      </div>
-    </>
-  )
-}
+    return (
+        <ThemeProvider theme={defaultTheme}>
+            <Container component="main" maxWidth="md">
+                <CssBaseline />
+                <Box
+                    sx={{
+                        marginTop: 10,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                    }}
+                >
+                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
+                    <Typography component="h1" variant="h5">
+                        Sign up
+                    </Typography>
+                    <Box
+                        component="form"
+                        noValidate
+                        onSubmit={handleSubmit}
+                        sx={{ mt: 3 }}
+                    >
+
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} lg={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="name"
+                                    label="Name"
+                                    name="name"
+                                    autoComplete="name"
+                                />
+                            </Grid>
+                            <Grid item xs={12} lg={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    name="email"
+                                    autoComplete="email"
+                                />
+                            </Grid>
+                            <Grid item xs={12} lg={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="new-password"
+                                />
+                            </Grid>
+                            <Grid item xs={12} lg={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    name="gender"
+                                    label="Gender"
+                                    id="gender"
+                                    autoComplete="gender"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    name="address"
+                                    label="Address"
+                                    id="address"
+                                    autoComplete="address"
+                                />
+                            </Grid>
+                            <Grid item xs={12} lg={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    name="contactNumber"
+                                    label="Contact Number"
+                                    id="contactNumber"
+                                    autoComplete="contactNumber"
+                                />
+                            </Grid>
+                            <Grid item xs={12} lg={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    name="hostel"
+                                    label="Hostel"
+                                    id="hostel"
+                                    autoComplete="hostel"
+                                />
+                            </Grid>
+                            <Grid item xs={12} lg={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    name="flatNumber"
+                                    label="Flat Number"
+                                    id="flatNumber"
+                                    autoComplete="flatNumber"
+                                />
+                            </Grid>
+                            <Grid item xs={12} lg={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    name="roomNumber"
+                                    label="Room Number"
+                                    id="roomNumber"
+                                    autoComplete="roomNumber"
+                                />
+                            </Grid>
+                        </Grid>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Sign Up
+                        </Button>
+                        <Grid container justifyContent="flex-end">
+                            <Grid item>
+                                <Link href="/login" variant="body2">
+                                    Already a user? Sign in
+                                </Link>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Box>
+            </Container>
+        </ThemeProvider>
+    );
+};
 
 const mapActionsToProps = (dispatch) => {
-  return {
-    ...getAuthActions(dispatch),
-  };
+    return {
+        ...getAuthActions(dispatch),
+    };
 };
+
 export default connect(null, mapActionsToProps)(SignupStudent);
