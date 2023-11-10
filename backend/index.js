@@ -3,6 +3,12 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const app = express();
 
+const passport = require("passport");
+const cookieSession = require("cookie-session");
+// const authRoutes = require("./routes/authRoutes");
+// const mainRoutes = require("./routes/mainRoutes");
+// require("./passport");
+
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
     res.header(
@@ -23,9 +29,21 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
+
+app.use(
+  cookieSession({
+    name: "google-auth-session",
+    keys: ["key1", "key2"],
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/api', require("./routes/CreateStudent"));
 app.use('/api', require("./routes/CreateStaff"));
 app.use('/api', require("./routes/Login"));
+app.use('/api', require("./routes/GoogleLogin"));
 app.use('/api', require("./routes/CreateComplaint"));
 app.use('/api', require("./routes/CreateSuggestion"));
 app.use('/api', require("./routes/GetAllComplaints"));

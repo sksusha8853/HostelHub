@@ -1,66 +1,145 @@
-import React, { useEffect, useState } from 'react'
-import { connect, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom'
-import { getAuthActions } from '../app/actions/authActions';
+import React from 'react'
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { createTheme } from "@mui/material/styles";
+import { Avatar, Container, CssBaseline, IconButton } from "@mui/material";
+import { ThemeProvider } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
+import { getAuthActions } from "../app/actions/authActions";
+import { connect } from "react-redux";
+import GoogleIcon from "@mui/icons-material/Google";
+import FacebookIcon from "@mui/icons-material/Facebook";
 
-const Login = ({login}) => {
-  const [credentials, setcredentials] = useState({ email: "", password: "" })
-  const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.userDetails);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const userDetails = {
-      email: credentials.email,
-      password: credentials.password,
-    };
-    login(userDetails, navigate);
+function Copyright(props) {
+    return (
+        <Typography
+            variant="body2"
+            color="text.secondary"
+            align="center"
+            {...props}
+        >
+            {"Copyright © "}
+            <Link color="inherit" href="https://mui.com/">
+                Your Website
+            </Link>{" "}
+            {new Date().getFullYear()}
+            {"."}
+        </Typography>
+    );
+}
 
-  //   const json = useSelector((state) => state.user);
-  //   console.log(json)
+const defaultTheme = createTheme();
 
-  //   if (!json.success) {
-  //     alert("Enter Valid credentials")
-  //   }
-  //   else {
-  //     localStorage.setItem("authToken", json.authToken)
-  //     navigate("/");
-  //   }
-  }
-
-  const onChange = (event) => {
-    setcredentials({ ...credentials, [event.target.name]: event.target.value })
-  }
-
-  useEffect(() => {
-    if (user) {
-      navigate("/");
+const Login = ({ login }) => {
+    const navigate = useNavigate();
+    function googleLogin() {
+        window.open("http://localhost:5000/api/google", "_self");
     }
-  }, [])
+    function facebookLogin() {
+        window.open("http://localhost:5000/facebook", "_self");
+    }
 
-  return (
-    <>
-      <div className='container'>
-        <form onSubmit={handleSubmit}>
-          <div className='mb-3'>
-            <label htmlFor='email' className='form-label'>Email address</label>
-            <input type='text' className='form-control' name='email' value={credentials.email} onChange={onChange} />
-          </div>
-          <div className='mb-3'>
-            <label htmlFor='password' className='form-label'>Password</label>
-            <input type='password' className='form-control' name='password' value={credentials.password} onChange={onChange} />
-          </div>
-          <button type="submit" className='m-3 btn btn-success'>Submit</button>
-          <Link to="/signupstudent" className='m-3 btn btn-danger'>I'm a new user</Link>
-        </form>
-      </div>
-    </>
-  )
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        const userDetails = {
+            email: data.get("email"),
+            password: data.get("password"),
+        };
+        login(userDetails, navigate);
+    }
+
+    return (
+        <ThemeProvider theme={defaultTheme}>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <Box
+                    sx={{
+                        marginTop: 20,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                    }}
+                >
+                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
+                    <Typography component="h1" variant="h5">
+                        Sign in
+                    </Typography>
+                    <Box
+                        component="form"
+                        onSubmit={handleSubmit}
+                        noValidate
+                        sx={{ mt: 1 }}
+                    >
+                        
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            autoFocus
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            sx={{ textColor: "white" }}
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Sign In
+                        </Button>
+                        <Grid container>
+                            <Grid item xs>
+                                <Link href="/forgotPassword" variant="body2">
+                                    Forgot Password?
+                                </Link>
+                            </Grid>
+                            <Grid item>
+                                <Link href="/register" variant="body2">
+                                    {"Don't have an account? Sign Up"}
+                                </Link>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                    <Box display="flex" sx={{ mt: 1 }}>
+                        <IconButton
+                            aria-label="google"
+                            onClick={googleLogin}
+                            sx={{ mr: 1 }}
+                        >
+                            <GoogleIcon fontSize="large" />
+                        </IconButton>
+                        <IconButton aria-label="facebook" onClick={facebookLogin}>
+                            <FacebookIcon fontSize="large" />
+                        </IconButton>
+                    </Box>
+                </Box>
+                <Copyright sx={{ mt: 8, mb: 4 }} />
+            </Container>
+        </ThemeProvider>
+    );
 };
 
 const mapActionsToProps = (dispatch) => {
-  return {
-    ...getAuthActions(dispatch),
-  };
+    return {
+        ...getAuthActions(dispatch),
+    };
 };
-
 export default connect(null, mapActionsToProps)(Login);
