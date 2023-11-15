@@ -46,8 +46,12 @@ app.use('/api', require("./routes/Login"));
 app.use('/api', require("./routes/GoogleLogin"));
 app.use('/api', require("./routes/CreateComplaint"));
 app.use('/api', require("./routes/CreateSuggestion"));
+app.use('/api', require("./routes/CreateAnnouncement"));
 app.use('/api', require("./routes/GetAllComplaints"));
 app.use('/api', require("./routes/GetAllSuggestions"));
+app.use('/api', require("./routes/DeleteComplaint"));
+app.use('/api', require("./routes/DeleteSuggestion"));
+app.use('/api', require("./routes/DeleteAnnouncement"));
 app.listen(process.env.API_PORT, () => {
     console.log(`App listening on port ${process.env.API_PORT}`);
 });
