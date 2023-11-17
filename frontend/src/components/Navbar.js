@@ -37,8 +37,8 @@ const Navbar = ({ setUserDetails }) => {
     };
 
     const pages = [{ name: "Home", url: "/" }, { name: "Hall Rules", url: "/" }, { name: "Facilities", url: "/" }, { name: "Gallery", url: "/" }, { name: "Complaints", url: "/complaint" }, { name: "Suggestions", url: "/suggestion" }, { name: "Contact Us", url: "/" }];
-    const settings = [{ name: "Profile", url: "/profile" }, { name: "Profile", url: "/profile" }, { name: "Profile", url: "/profile" }];
-
+    const loggedUserSettings = [{ name: "Dashboard", url: "/dashboard" }, { name: "SignupStudent", url: "/signupstudent" }, { name: "SignupStaff", url: "/signupstaff" }, { name: "Login", url: "/login" }];
+    const notLoggedUserSettings = [{ name: "Dashboard", url: "/dashboard" }, { name: "Profile", url: "/profile" }];
 
 
     const navigate = useNavigate();
@@ -59,14 +59,14 @@ const Navbar = ({ setUserDetails }) => {
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
+                            fontFamily: 'nospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
                     >
-                        LOGO
+                        HostelHub
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -160,15 +160,11 @@ const Navbar = ({ setUserDetails }) => {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                <MenuItem key="signupstudent" onClick={() => navigate('/signupstudent')}>
-                                    <Typography textAlign="center">SignupStudent</Typography>
-                                </MenuItem>
-                                <MenuItem key="signupstaff" onClick={() => navigate('/signupstaff')}>
-                                    <Typography textAlign="center">SignupStaff</Typography>
-                                </MenuItem>
-                                <MenuItem key="login" onClick={() => navigate('/login')}>
-                                    <Typography textAlign="center">Login</Typography>
-                                </MenuItem>
+                                {loggedUserSettings.map((setting) => (
+                                    <MenuItem key={setting.url} onClick={() => navigate(setting.url)}>
+                                        <Typography textAlign="center">{setting.name}</Typography>
+                                    </MenuItem>
+                                ))}
                             </Menu>
                             :
                             <Menu
@@ -187,9 +183,11 @@ const Navbar = ({ setUserDetails }) => {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                <MenuItem key="profile" onClick={() => navigate('/profile')}>
-                                    <Typography textAlign="center">Profile</Typography>
-                                </MenuItem>
+                                {notLoggedUserSettings.map((setting) => (
+                                    <MenuItem key={setting.url} onClick={() => navigate(setting.url)}>
+                                        <Typography textAlign="center">{setting.name}</Typography>
+                                    </MenuItem>
+                                ))}
                                 <MenuItem key="logout" onClick={handleLogout}>
                                     <Typography textAlign="center">Logout</Typography>
                                 </MenuItem>
@@ -199,44 +197,6 @@ const Navbar = ({ setUserDetails }) => {
                 </Toolbar>
             </Container>
         </AppBar>
-
-
-
-        // <div>
-        //     <nav className='navbar navbar-expand-lg navbar-dark bg-success'>
-        //         <div className='container-fluid'>
-        //             <Link className='navbar-brand fs-1 fst-italic' to="/">HostelHub</Link>
-        //             <button className='navbar-toggler' type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav">
-        //                 <span className='navbar-toggler-icon'></span>
-        //             </button>
-        //             <div className='collapse navbar-collapse'>
-        //                 <ul className='navbar-nav'>
-        //                     <li className='nav-item'>
-        //                         <Link className='nav-link' aria-current="page" to="/">Home</Link>
-        //                     </li>
-        //                     {(!user) ?
-        //                         <div>
-        //                             <li className='nav-item'>
-        //                                 <Link className='nav-link' to="/signupstudent">SignupStudent</Link>
-        //                             </li>
-        //                             <li className='nav-item'>
-        //                                 <Link className='nav-link' to="/signupstaff">SignupStaff</Link>
-        //                             </li>
-        //                             <li className='nav-item'>
-        //                                 <Link className='nav-link' to="/login">Login</Link>
-        //                             </li>
-        //                         </div> :
-        //                         <div>
-        //                             <div className='btn' onClick={handleLogout}>Logout</div>
-        //                         </div>
-        //                     }
-
-
-        //                 </ul>
-        //             </div>
-        //         </div>
-        //     </nav>
-        // </div>
     )
 }
 

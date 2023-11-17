@@ -5,17 +5,14 @@ const Student = require('../models/Student')
 const { body, validationResult } = require('express-validator');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken")
-const jwtSecret = process.env.JWT_SECRET
 
 router.post("/login", async (req, res) => {
     try {
-        console.log('req', req)
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
         let email = req.body.email;
-        let userData;
         let studentData = await Student.findOne({ email });
         if (studentData) {
             const pwdCompare = await bcrypt.compare(req.body.password, studentData.password);
@@ -23,7 +20,20 @@ router.post("/login", async (req, res) => {
                 return res.status(400).json({ errors: "Please enter correct credentials" })
             }
             else {
-                userData = studentData;
+                console.log('studentData._id', studentData._id)
+                console.log('studentData.email', studentData.email)
+                const token = jwt.sign(
+                    {
+                        userId: studentData._id,
+                        email: studentData.email,
+                    },
+                    process.env.JWT_SECRET,
+                    {
+                        expiresIn: "72h",
+                    }
+                );
+                console.log('token', token)
+                return res.json({ success: true, role: "student", authToken: token })
             }
         }
         else {
@@ -34,19 +44,27 @@ router.post("/login", async (req, res) => {
                     return res.status(400).json({ errors: "Please enter correct credentials" })
                 }
                 else {
-                    userData = staffData;
+                    const token = jwt.sign(
+                        {
+                            userId: staffData._id,
+                            email: staffData.email,
+                        },
+                        process.env.JWT_SECRET,
+                        {
+                            expiresIn: "72h",
+                        }
+                    );
+                    return res.json({ success: true, role: "staff", authToken: token })
                 }
             }
             else {
                 return res.status(400).json({ errors: "Please enter correct credentials" })
             }
         }
-        // const authToken = jwt.sign(data, jwtSecret)
-        // console.log('authToken', authToken)
-        return res.json({ success: true, authToken: userData })
+
     } catch (error) {
         console.log(error)
-        res.json({ success: false });
+        return res.status(500).send("Something went wrong. Please try again");
     }
 })
 

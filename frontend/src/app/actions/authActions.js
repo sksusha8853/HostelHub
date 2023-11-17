@@ -25,19 +25,26 @@ export const getAuthActions = (dispatch) => {
 
 export const login = (userDetails, navigate) => {
     return async (dispatch) => {
-        console.log(userDetails);
         const response = await api.login(userDetails);
+        console.log('userDetails', userDetails)
+        console.log('response', response)
         if (response.error) {
             console.log("response", response);
         } else {
-            console.log('response', response)
-            const { success, authToken } = response?.data;
-            console.log(userDetails);
-            if (success) {
-                localStorage.setItem("user", JSON.stringify(authToken));
-                dispatch(setUserDetails(authToken));
+            const { success, role, authToken } = response?.data;
+            if(role === "student") {
                 navigate("/");
             }
+            else if(role === "staff"){
+                navigate("/");
+                // separate page for staff
+            }   
+            else{
+                navigate("/");
+                // initial details
+            }
+            localStorage.setItem("user", JSON.stringify(authToken));
+            dispatch(setUserDetails(authToken));
         }
     };
 };

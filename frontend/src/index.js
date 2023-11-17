@@ -11,6 +11,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import storage from "redux-persist/lib/storage";
 import rootReducer from "./app/reducers/index.js";
 import Home from "./screens/Home";
+import Dashboard from "./dashboard/Dashboard";
 import Login from "./screens/Login";
 import SignupStudent from "./screens/SignupStudent";
 import SignupStaff from "./screens/SignupStaff";
@@ -19,6 +20,7 @@ import Complaint from "./screens/Complaint";
 import Suggestion from "./screens/Suggestion";
 import ShowComplaints from "./screens/ShowComplaints";
 import ShowSuggestions from "./screens/ShowSuggestions";
+import SideNavbar from "./dashboard/SideNavbar.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -40,6 +42,10 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <Home />,
+    },
+    {
+        path: "/dashboard",
+        element: <Dashboard Component="Inbox" />,
     },
     {
         path: "/login",

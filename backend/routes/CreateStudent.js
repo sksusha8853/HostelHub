@@ -8,7 +8,7 @@ const bcrypt = require("bcryptjs");
 
 router.post("/createstudent", [
     body('email').isEmail(),
-    body('password', 'Password cannot be less than 8 characters.').isLength({ min: 8}),
+    body('password', 'Password cannot be less than 8 characters.').isLength({ min: 8 }),
     body('gender', 'Please choose your gender.').isLength({ min: 1 }),
     body('address', 'Please fill your address').isLength({ min: 1 }),
     body('contactNumber', 'Please fill your contact number.').isLength({ min: 1 })
