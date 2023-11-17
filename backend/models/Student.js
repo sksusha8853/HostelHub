@@ -3,43 +3,44 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 
 const StudentSchema = new Schema({
-    name:{
+    name: {
+        type: String,
+    },
+    email: {
         type: String,
         required: true
     },
-    email:{
+    password: {
         type: String,
-        required: true
     },
-    password:{
+    googleId: {
         type: String,
-        required: true
+    },
+    facebookId: {
+        type: String,
     },
     gender: {
         type: String,
-        required: true
     },
-    address:{
+    address: {
         type: String,
-        required: true
     },
-    contactNumber:{
+    contactNumber: {
         type: String,
-        required: true
     },
     role: {
         type: String,
         default: "student"
     },
-    hostel:{
+    hostel: {
         type: String,
         default: "NA"
     },
-    flatNumber:{
+    flatNumber: {
         type: String,
         default: "NA"
     },
-    roomNumber:{
+    roomNumber: {
         type: String,
         default: "NA"
     }

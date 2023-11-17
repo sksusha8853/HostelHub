@@ -1,44 +1,46 @@
 const passport = require("passport");
-const Student = require("./models/Student");
+const student = require('./models/Student');
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 
 passport.serializeUser(function (user, done) {
-  done(null, user);
+    done(null, user);
 });
 
 passport.deserializeUser(function (user, done) {
-  done(null, user);
+    done(null, user);
 });
 
 passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "http://localhost:5000/auth/google/register",
-      passReqToCallback: true,
-    },
-    async function (request, accessToken, refreshToken, profile, done) {
-      try {
-        let Student = await Student.findOne({ email: profile.email });
-        if (!Student) {
-            Student = new Student({
-            username: profile.email,
-            email: profile.email,
-            googleId: profile.id,
-            role: "Student",
-          });
-        } else {
-            Student.googleId = profile.id;
+    new GoogleStrategy(
+        {
+            clientID: process.env.CLIENT_ID,
+            clientSecret: process.env.CLIENT_SECRET,
+            callbackURL: "http://localhost:5000/api/googleRedirect",
+            passReqToCallback: true,
+        },
+        async function (request, accessToken, refreshToken, profile, done) {
+            console.log('profile', profile)
+            try {
+                let Student = await student.findOne({ email: profile.email, googleId: profile.id });
+                if (!Student) {
+                    Student = new student({
+                        // username: profile.email,
+                        email: profile.email,
+                        googleId: profile.id,
+                        // role: "Student",
+                    });
+                } else {
+                    Student.googleId = profile.id;
+                }
+                await Student.save();
+                console.log('Student', Student)
+                return done(null, Student);
+            } catch (err) {
+                return done(err);
+            }
         }
-        await Student.save();
-        return done(null, Student);
-      } catch (err) {
-        return done(err);
-      }
-    }
-  )
+    )
 );
 
 // passport.use(

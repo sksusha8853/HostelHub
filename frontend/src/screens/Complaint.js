@@ -20,6 +20,7 @@ const Complaint = ({ postComplaint }) => {
     const navigate = useNavigate();
     const user = useSelector((state) => state.auth.userDetails);
     useEffect(() => {
+        console.log('user', user)
         if (!user) {
             navigate("/login");
         }
@@ -67,7 +68,7 @@ const Complaint = ({ postComplaint }) => {
                                         fullWidth
                                         id="email"
                                         label="Email"
-                                        value={user.email}
+                                        value={user?.email}
                                         name="email"
                                         autoComplete="email"
                                     />
