@@ -1,4 +1,6 @@
 import axios from "axios";
+// import { BASE_URL } from "./constants/AppConstants";
+import { store } from "./index"
 
 const apiClient = axios.create({
     baseURL: "http://localhost:5000/api",
@@ -6,7 +8,7 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
     (config) => {
-        const userDetails = localStorage.getItem("user");
+        const { userDetails } = store.getState().auth.userDetails;
 
         if (userDetails) {
             const token = JSON.parse(userDetails).token;
@@ -19,11 +21,37 @@ apiClient.interceptors.request.use(
     }
 );
 
+export const apiCall = async (data, endpoint, method) => {
+    try {
+        if (method === "GET") {
+            return await apiClient.get(endpoint, data);
+        } else if (method === "POST") {
+            console.log("data", data);
+            return await apiClient.post(endpoint, data);
+        }
+    } catch (exception) {
+        return {
+            error: true,
+            exception,
+        };
+    }
+};
+
 // Public Routes
 export const login = async (data) => {
     try {
-        console.log("data", data);
         return await apiClient.post("/login", data);
+    } catch (exception) {
+        return {
+            error: true,
+            exception,
+        };
+    }
+};
+
+export const isLoggedIn = async (data) => {
+    try {
+        return await apiClient.get("/isLoggedIn", data);
     } catch (exception) {
         return {
             error: true,

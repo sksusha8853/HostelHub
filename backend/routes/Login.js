@@ -20,8 +20,6 @@ router.post("/login", async (req, res) => {
                 return res.status(400).json({ errors: "Please enter correct credentials" })
             }
             else {
-                console.log('studentData._id', studentData._id)
-                console.log('studentData.email', studentData.email)
                 const token = jwt.sign(
                     {
                         userId: studentData._id,
@@ -63,7 +61,6 @@ router.post("/login", async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error)
         return res.status(500).send("Something went wrong. Please try again");
     }
 })

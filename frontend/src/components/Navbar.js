@@ -1,8 +1,9 @@
 import { useSelector, connect } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuthActions } from '../app/actions/authActions';
+import { getMainActions } from '../app/actions/mainActions';
 
-import * as React from 'react';
+import {React, useEffect, useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -18,10 +19,10 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
 
-const Navbar = ({ setUserDetails }) => {
+const Navbar = ({ setUserDetails, isLoggedIn, userDetails , loggedIn}) => {
 
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -37,12 +38,23 @@ const Navbar = ({ setUserDetails }) => {
     };
 
     const pages = [{ name: "Home", url: "/" }, { name: "Hall Rules", url: "/" }, { name: "Facilities", url: "/" }, { name: "Gallery", url: "/" }, { name: "Complaints", url: "/complaint" }, { name: "Suggestions", url: "/suggestion" }, { name: "Contact Us", url: "/" }];
-    const loggedUserSettings = [{ name: "Dashboard", url: "/dashboard" }, { name: "SignupStudent", url: "/signupstudent" }, { name: "SignupStaff", url: "/signupstaff" }, { name: "Login", url: "/login" }];
-    const notLoggedUserSettings = [{ name: "Dashboard", url: "/dashboard" }, { name: "Profile", url: "/profile" }];
-
+    const notLoggedUserSettings = [ { name: "SignupStudent", url: "/signupstudent" }, { name: "SignupStaff", url: "/signupstaff" }, { name: "Login", url: "/login" }];
+    const loggedUserSettings = [{ name: "Dashboard", url: "/dashboard" }, { name: "Profile", url: "/profile" }];
 
     const navigate = useNavigate();
-    const user = useSelector((state) => state.auth.userDetails);
+    
+    useEffect(() => {
+        if(userDetails){
+            console.log('userDetails2', userDetails)
+            const data = {
+                userDetails
+            }
+            isLoggedIn(data, navigate);
+            console.log('loggedIn', loggedIn)
+        }
+    }, []);
+    
+    
     const handleLogout = () => {
         setUserDetails(null);
         navigate("/");
@@ -143,7 +155,7 @@ const Navbar = ({ setUserDetails }) => {
                             </IconButton>
                         </Tooltip>
 
-                        {(!user) ?
+                        {(!loggedIn) ?
                             <Menu
                                 sx={{ mt: '45px' }}
                                 id="menu-appbar"
@@ -160,7 +172,7 @@ const Navbar = ({ setUserDetails }) => {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                {loggedUserSettings.map((setting) => (
+                                {notLoggedUserSettings.map((setting) => (
                                     <MenuItem key={setting.url} onClick={() => navigate(setting.url)}>
                                         <Typography textAlign="center">{setting.name}</Typography>
                                     </MenuItem>
@@ -183,7 +195,7 @@ const Navbar = ({ setUserDetails }) => {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                {notLoggedUserSettings.map((setting) => (
+                                {loggedUserSettings.map((setting) => (
                                     <MenuItem key={setting.url} onClick={() => navigate(setting.url)}>
                                         <Typography textAlign="center">{setting.name}</Typography>
                                     </MenuItem>
@@ -200,11 +212,18 @@ const Navbar = ({ setUserDetails }) => {
     )
 }
 
-const mapActionsToProps = (dispatch) => {
+const mapStoreStateToProps = ({auth}) => {
     return {
-        ...getAuthActions(dispatch),
+        ...auth,
     };
 };
 
-export default connect(null, mapActionsToProps)(Navbar);
+const mapActionsToProps = (dispatch) => {
+    return {
+        ...getAuthActions(dispatch),
+        ...getMainActions(dispatch),
+    };
+};
+
+export default connect(mapStoreStateToProps, mapActionsToProps)(Navbar);
 

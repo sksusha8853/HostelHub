@@ -1,18 +1,32 @@
 import * as api from "../../api";
+import { setLoggedIn } from "./authActions";
 
-export const authActions = {
-    SET_USER_DETAILS: "AUTH.SET_USER_DETAILS",
+export const mainActions = {
 };
 
 export const getMainActions = (dispatch) => {
     return {
         postComplaint: (complainDetails, navigate) => dispatch(postComplaint(complainDetails, navigate)),
-        getAllComplaints:(userDetails, navigate) => dispatch(getAllComplaints(userDetails,navigate)),
+        getAllComplaints: (userDetails, navigate) => dispatch(getAllComplaints(userDetails, navigate)),
         postSuggestion: (suggestionDetails, navigate) => dispatch(postSuggestion(suggestionDetails, navigate)),
-        getAllSuggestions:(userDetails, navigate) => dispatch(getAllSuggestions(userDetails, navigate))
+        getAllSuggestions: (userDetails, navigate) => dispatch(getAllSuggestions(userDetails, navigate)),
+        isLoggedIn: (data, navigate) => dispatch(isLoggedIn(data, navigate))
     };
 };
 
+export const isLoggedIn = (data, navigate) => {
+    return async (dispatch) => {
+        const response = await api.isLoggedIn(data);
+        console.log("response", response);
+        if (response.error) {
+            console.log("response", response);
+        } else {
+            console.log('response', response)
+            const { success } = response;
+            dispatch(setLoggedIn(success));
+        }
+    };
+};
 
 export const postComplaint = (complainDetails, navigate) => {
     return async (dispatch) => {
@@ -48,7 +62,7 @@ export const postSuggestion = (suggestionDetails, navigate) => {
     };
 };
 
-export const getAllComplaints = (userDetails,setData, navigate) => {
+export const getAllComplaints = (userDetails, setData, navigate) => {
     return async (dispatch) => {
         const response = await api.getAllComplaints(userDetails);
         if (response.error) {

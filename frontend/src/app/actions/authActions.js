@@ -2,12 +2,21 @@ import * as api from "../../api";
 
 export const authActions = {
     SET_USER_DETAILS: "AUTH.SET_USER_DETAILS",
+    SET_LOGGED_IN: "AUTH.SET_LOGGED_IN",
 };
 
 export const setUserDetails = (userDetails) => {
     return {
         type: authActions.SET_USER_DETAILS,
         userDetails,
+    };
+};
+
+export const setLoggedIn = (loggedIn) => {
+    console.log('loggedInAction', loggedIn)
+    return {
+        type: authActions.SET_LOGGED_IN,
+        loggedIn,
     };
 };
 
@@ -20,30 +29,28 @@ export const getAuthActions = (dispatch) => {
             dispatch(registerStaff(userDetails, navigate)),
         setUserDetails: (userDetails) =>
             dispatch(setUserDetails(userDetails)),
+        setLoggedIn: (loggedIn) => dispatch(setLoggedIn(loggedIn))
     };
 };
 
 export const login = (userDetails, navigate) => {
     return async (dispatch) => {
         const response = await api.login(userDetails);
-        console.log('userDetails', userDetails)
-        console.log('response', response)
         if (response.error) {
             console.log("response", response);
         } else {
             const { success, role, authToken } = response?.data;
-            if(role === "student") {
+            if (role === "student") {
                 navigate("/");
             }
-            else if(role === "staff"){
+            else if (role === "staff") {
                 navigate("/");
                 // separate page for staff
-            }   
-            else{
+            }
+            else {
                 navigate("/");
                 // initial details
             }
-            localStorage.setItem("user", JSON.stringify(authToken));
             dispatch(setUserDetails(authToken));
         }
     };

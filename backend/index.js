@@ -43,6 +43,7 @@ app.use(passport.session());
 app.use('/api', require("./routes/CreateStudent"));
 app.use('/api', require("./routes/CreateStaff"));
 app.use('/api', require("./routes/Login"));
+app.use('/api', require("./routes/IsLoggedIn"));
 app.use('/api', require("./routes/GoogleLogin"));
 app.use('/api', require("./routes/Success"));
 app.use('/api', require("./routes/GoogleRedirect"));

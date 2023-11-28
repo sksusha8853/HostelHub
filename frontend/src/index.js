@@ -20,7 +20,6 @@ import Complaint from "./screens/Complaint";
 import Suggestion from "./screens/Suggestion";
 import ShowComplaints from "./screens/ShowComplaints";
 import ShowSuggestions from "./screens/ShowSuggestions";
-import SideNavbar from "./dashboard/SideNavbar.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -30,7 +29,7 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-const store = configureStore(
+export const store = configureStore(
     {
         reducer: persistedReducer,
     },
