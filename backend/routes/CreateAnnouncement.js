@@ -3,8 +3,8 @@ const router = express.Router()
 const Announcement = require('../models/Announcement')
 const { body, validationResult } = require('express-validator');
 const Staff = require('../models/Staff');
-
-router.post("/createannouncement", [
+const auth = require("../middleware/auth");
+router.post("/createannouncement", auth, [
     body('description', 'Description can\'t be empty.').isLength({ min: 1 }),
 ],
     async (req, res) => {

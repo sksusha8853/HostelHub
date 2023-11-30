@@ -4,18 +4,21 @@ const { body, validationResult } = require('express-validator');
 const Student = require('../models/Student');
 const Staff = require('../models/Staff');
 const Complaint = require('../models/Complaint');
+const auth = require("../middleware/auth");
 
-router.get("/getAllComplaints",
+router.get("/getAllComplaints", auth,
     async (req, res) => {
 
         try {
-            const { email, role } = req.body;
+            const { userId, role } = req.user;
             let complaints;
 
             if (role == "admin") {
                 complaints = await Complaint.find();
-            } else {
-                complaints = await Complaint.find({ email: email });
+            } else if (role == "staff") {
+                complaints = await Complaint.find();
+            } else if (role == "student") {
+                complaints = await Complaint.find({ student: userId });
             }
             return res.json({ success: true, complaints: complaints });
 

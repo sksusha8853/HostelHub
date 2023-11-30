@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getAuthActions } from '../app/actions/authActions';
 import { getMainActions } from '../app/actions/mainActions';
 
-import {React, useEffect, useState} from 'react';
+import { React, useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,7 +19,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
 
-const Navbar = ({ setUserDetails, isLoggedIn, userDetails , loggedIn}) => {
+const Navbar = ({ setUserDetails, isLoggedIn, userDetails, loggedIn, setLoggedIn }) => {
 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
@@ -38,25 +38,26 @@ const Navbar = ({ setUserDetails, isLoggedIn, userDetails , loggedIn}) => {
     };
 
     const pages = [{ name: "Home", url: "/" }, { name: "Hall Rules", url: "/" }, { name: "Facilities", url: "/" }, { name: "Gallery", url: "/" }, { name: "Complaints", url: "/complaint" }, { name: "Suggestions", url: "/suggestion" }, { name: "Contact Us", url: "/" }];
-    const notLoggedUserSettings = [ { name: "SignupStudent", url: "/signupstudent" }, { name: "SignupStaff", url: "/signupstaff" }, { name: "Login", url: "/login" }];
+    const notLoggedUserSettings = [{ name: "SignupStudent", url: "/signupstudent" }, { name: "SignupStaff", url: "/signupstaff" }, { name: "Login", url: "/login" }];
     const loggedUserSettings = [{ name: "Dashboard", url: "/dashboard" }, { name: "Profile", url: "/profile" }];
 
     const navigate = useNavigate();
-    
+
     useEffect(() => {
-        if(userDetails){
+        if (userDetails) {
             console.log('userDetails2', userDetails)
             const data = {
                 userDetails
             }
             isLoggedIn(data, navigate);
-            console.log('loggedIn', loggedIn)
+            console.log('loggedIn2', loggedIn)
         }
     }, []);
-    
-    
+
+
     const handleLogout = () => {
         setUserDetails(null);
+        setLoggedIn(false);
         navigate("/");
     }
     return (
@@ -155,7 +156,7 @@ const Navbar = ({ setUserDetails, isLoggedIn, userDetails , loggedIn}) => {
                             </IconButton>
                         </Tooltip>
 
-                        {(!loggedIn) ?
+                        {(loggedIn==false) ?
                             <Menu
                                 sx={{ mt: '45px' }}
                                 id="menu-appbar"
@@ -212,7 +213,7 @@ const Navbar = ({ setUserDetails, isLoggedIn, userDetails , loggedIn}) => {
     )
 }
 
-const mapStoreStateToProps = ({auth}) => {
+const mapStoreStateToProps = ({ auth }) => {
     return {
         ...auth,
     };

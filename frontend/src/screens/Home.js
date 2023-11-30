@@ -6,13 +6,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getAuthActions, setLoggedIn } from '../app/actions/authActions';
 import { getMainActions } from '../app/actions/mainActions';
 import Carousel from 'react-bootstrap/Carousel';
-import ExampleCarouselImage from 'components';
-
+import { Box } from "@mui/material";
+// import Abhinandan from "./images/abhinandan.jpg";
 
 const Home = ({ setUserDetails, loggedIn, userDetails, setLoggedIn }) => {
     const search = useLocation().search;
     const navigate = useNavigate();
-    useEffect(() => {
+    useEffect( () => {
         const authToken = new URLSearchParams(search).get("user");
         if (authToken) {
             setUserDetails(authToken);
@@ -24,34 +24,66 @@ const Home = ({ setUserDetails, loggedIn, userDetails, setLoggedIn }) => {
     return (
         <div>
             <Navbar />
-            <div>
-                <Carousel>
+            <Box>
+                <Carousel data-bs-theme="dark" >
                     <Carousel.Item>
-                        <ExampleCarouselImage text="First slide" />
+                        <img
+                            className="d-block w-100 h-50"
+                            style={{ maxHeight: '600px', backgroundSize: "cover" }}
+                            src={process.env.PUBLIC_URL + '/images/IITIndore.png'}
+                            alt="First slide"
+                        />
                         <Carousel.Caption>
-                            <h3>First slide label</h3>
-                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                            <h1 style={{ color: "#2E5984" }}>IIT Indore</h1>
+                            <hr style={{ border: '4px solid white', width: "700px", margin: 'auto' }} />
+                            <h4 style={{ color: "white" }}>Welcome to the Portal of Hall of Residences</h4>
+                            <p style={{ color: "white" }}>A one place solution to anything related to Hall of Residences, whether its <br /> payment of accomodation charges, or query redresal, etc.</p>
                         </Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item>
-                        <ExampleCarouselImage text="Second slide" />
+                        <img
+                            className="d-block w-100 h-50"
+                            style={{ maxHeight: '600px', backgroundSize: "cover" }}
+                            src={process.env.PUBLIC_URL + '/images/CampusTop.jpg'}
+                            alt="Second slide"
+                        />
                         <Carousel.Caption>
-                            <h3>Second slide label</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <h1 style={{ color: "#2E5984" }}>IIT Indore</h1>
+                            <hr style={{ border: '4px solid white', width: "700px", margin: 'auto' }} />
+                            <h4 style={{ color: "white" }}>Welcome to the Portal of Hall of Residences</h4>
+                            <p style={{ color: "white" }}>A one place solution to anything related to Hall of Residences, whether its <br /> payment of accomodation charges, or query redresal, etc.</p>
                         </Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item>
-                        <ExampleCarouselImage text="Third slide" />
+                        <img
+                            className="d-block w-100 h-50"
+                            style={{ maxHeight: '600px' }}
+                            src={process.env.PUBLIC_URL + '/images/hostels.png'}
+                            alt="Third slide"
+                        />
                         <Carousel.Caption>
-                            <h3>Third slide label</h3>
-                            <p>
-                                Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-                            </p>
+                            <h1 style={{ color: "#2E5984" }}>IIT Indore</h1>
+                            <hr style={{ border: '4px solid white', width: "700px", margin: 'auto' }} />
+                            <h4 style={{ color: "white" }}>Welcome to the Portal of Hall of Residences</h4>
+                            <p style={{ color: "white" }}>A one place solution to anything related to Hall of Residences, whether its <br /> payment of accomodation charges, or query redresal, etc.</p>
+                        </Carousel.Caption>
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <img
+                            className="d-block w-100 h-50"
+                            style={{ maxHeight: '600px' }}
+                            src={process.env.PUBLIC_URL + '/images/auditorium.jpg'}
+                            alt="Third slide"
+                        />
+                        <Carousel.Caption>
+                            <h1 style={{ color: "#2E5984" }}>IIT Indore</h1>
+                            <hr style={{ border: '4px solid white', width: "700px", margin: 'auto' }} />
+                            <h4 style={{ color: "white" }}>Welcome to the Portal of Hall of Residences</h4>
+                            <p style={{ color: "white" }}>A one place solution to anything related to Hall of Residences, whether its <br /> payment of accomodation charges, or query redresal, etc.</p>
                         </Carousel.Caption>
                     </Carousel.Item>
                 </Carousel>
-
-            </div>
+            </Box>
             <div><Footer /></div>
         </div>
     )

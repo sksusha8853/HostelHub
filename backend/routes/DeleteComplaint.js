@@ -1,15 +1,17 @@
 const express = require('express')
 const router = express.Router()
 const Complaint = require('../models/Complaint');
+const auth = require("../middleware/auth");
 
-router.post("/deleteComplaint",
+router.post("/deleteComplaint", auth,
     async (req, res) => {
-
         try {
             const complaintId = req.body.complaintId;
             const userId = req.user.userId;
-            const userRole = req.user.userRole;
+            const userRole = req.user.role;
+
             const complaint = await Complaint.findOne({ _id: complaintId });
+            console.log('complaint', complaint)
             if ((complaint.student == userId) || (userRole == "admin")) {
                 await complaint.deleteOne();
             } else {

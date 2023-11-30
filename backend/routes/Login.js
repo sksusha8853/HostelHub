@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken")
 
 router.post("/login", async (req, res) => {
     try {
+        console.log(req);
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -24,6 +25,7 @@ router.post("/login", async (req, res) => {
                     {
                         userId: studentData._id,
                         email: studentData.email,
+                        role: "student",
                     },
                     process.env.JWT_SECRET,
                     {
@@ -46,6 +48,7 @@ router.post("/login", async (req, res) => {
                         {
                             userId: staffData._id,
                             email: staffData.email,
+                            role: "staff",
                         },
                         process.env.JWT_SECRET,
                         {
@@ -61,6 +64,7 @@ router.post("/login", async (req, res) => {
         }
 
     } catch (error) {
+        console.log(error);
         return res.status(500).send("Something went wrong. Please try again");
     }
 })

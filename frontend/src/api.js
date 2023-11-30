@@ -8,10 +8,10 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
     (config) => {
-        const { userDetails } = store.getState().auth.userDetails;
+        const userDetails = store.getState().auth.userDetails;
 
         if (userDetails) {
-            const token = JSON.parse(userDetails).token;
+            const token = userDetails;
             config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
@@ -125,6 +125,29 @@ export const getAllSuggestions = async (data) => {
     try {
         console.log("data", data);
         return await apiClient.get("/getAllSuggestions", data);
+    } catch (exception) {
+        return {
+            error: true,
+            exception,
+        };
+    }
+};
+
+export const deleteComplaint = async (complaintId) => {
+    try {
+        return await apiClient.post("/deleteComplaint", complaintId);
+    } catch (exception) {
+        return {
+            error: true,
+            exception,
+        };
+    }
+};
+
+export const deleteSuggestion = async (suggestionId) => {
+    try {
+        console.log('suggestionId2', suggestionId)
+        return await apiClient.post("/deleteSuggestion", suggestionId);
     } catch (exception) {
         return {
             error: true,

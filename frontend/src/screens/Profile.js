@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { Container } from "@mui/material";
 import { connect, useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 
 const defaultTheme = createTheme();
 
@@ -152,6 +153,9 @@ const Profile = ({ }) => {
                         >
                             Update Changes
                         </Button>
+                        <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                            <Link fullWidth onClick={() => navigate('/')}>Back to Home</Link>
+                        </Box>
                     </Box>
                 </Box>
             </Container>

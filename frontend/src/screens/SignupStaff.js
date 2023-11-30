@@ -30,7 +30,7 @@ const SignupStaff = ({ registerStaff }) => {
             contactNumber: data.get("contactNumber"),
             role: data.get("role"),
         };
-        registerStaff(userDetails, navigate);
+        await registerStaff(userDetails, navigate);
     }
 
     return (

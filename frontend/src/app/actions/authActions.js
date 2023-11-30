@@ -29,7 +29,23 @@ export const getAuthActions = (dispatch) => {
             dispatch(registerStaff(userDetails, navigate)),
         setUserDetails: (userDetails) =>
             dispatch(setUserDetails(userDetails)),
-        setLoggedIn: (loggedIn) => dispatch(setLoggedIn(loggedIn))
+        setLoggedIn: (loggedIn) => dispatch(setLoggedIn(loggedIn)),
+        isLoggedIn: (data, navigate) => dispatch(isLoggedIn(data, navigate))
+
+    };
+};
+
+export const isLoggedIn = (data, navigate) => {
+    return async (dispatch) => {
+        const response = await api.isLoggedIn(data);
+        console.log("response", response);
+        if (response.error) {
+            console.log("response", response);
+        } else {
+            console.log('response', response)
+            const { success } = response;
+            dispatch(setLoggedIn(success));
+        }
     };
 };
 
@@ -38,6 +54,7 @@ export const login = (userDetails, navigate) => {
         const response = await api.login(userDetails);
         if (response.error) {
             console.log("response", response);
+            alert(response);
         } else {
             const { success, role, authToken } = response?.data;
             if (role === "student") {
@@ -52,6 +69,7 @@ export const login = (userDetails, navigate) => {
                 // initial details
             }
             dispatch(setUserDetails(authToken));
+            dispatch(setLoggedIn(true));
         }
     };
 };
