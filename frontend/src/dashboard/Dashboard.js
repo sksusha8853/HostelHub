@@ -22,6 +22,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect, useSelector } from "react-redux";
+import ShowComplaints from './ShowComplaints';
+import ShowSuggestions from './ShowSuggestions';
 
 
 const Dashboard = ({ Component }) => {
@@ -144,14 +146,15 @@ const Dashboard = ({ Component }) => {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                    {[{text: 'Home', link: '/dashboard'}, {text: 'My Complaints', link: '/showComplaints'}, {text: 'My Suggestions', link: '/showSuggestions'}].map((element, index) => (
+                        <ListItem key={element.text} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton
                                 sx={{
                                     minHeight: 48,
                                     justifyContent: open ? 'initial' : 'center',
                                     px: 2.5,
                                 }}
+                                onClick={() => navigate(element.link)} 
                             >
                                 <ListItemIcon
                                     sx={{
@@ -162,21 +165,22 @@ const Dashboard = ({ Component }) => {
                                 >
                                     {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                 </ListItemIcon>
-                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                                <ListItemText primary={element.text} sx={{ opacity: open ? 1 : 0 }} />
                             </ListItemButton>
                         </ListItem>
                     ))}
                 </List>
                 <Divider />
                 <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                    {[{text: 'MainPage', link: '/'}, {text: 'Profile', link: '/profile'}].map((element, index) => (
+                        <ListItem key={element.text} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton
                                 sx={{
                                     minHeight: 48,
                                     justifyContent: open ? 'initial' : 'center',
                                     px: 2.5,
                                 }}
+                                onClick={() => navigate(element.link)} 
                             >
                                 <ListItemIcon
                                     sx={{
@@ -187,7 +191,7 @@ const Dashboard = ({ Component }) => {
                                 >
                                     {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                 </ListItemIcon>
-                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                                <ListItemText primary={element.text} sx={{ opacity: open ? 1 : 0 }} />
                             </ListItemButton>
                         </ListItem>
                     ))}
@@ -195,14 +199,24 @@ const Dashboard = ({ Component }) => {
             </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <DrawerHeader />
-                {(Component === "Inbox") ?
+                {(Component === "Home") ?
                     <Typography paragraph>
-                        Inbox
+                        Home
                     </Typography>
                     :
-                    <Typography paragraph>
-                        Not Found
-                    </Typography>
+                    (Component === "Complaints") ?
+                        <Typography paragraph>
+                            <ShowComplaints />
+                        </Typography>
+                        :
+                        (Component === "Suggestions") ?
+                            <Typography paragraph>
+                                <ShowSuggestions />
+                            </Typography>
+                            :
+                            <Typography paragraph>
+                                Not Found
+                            </Typography>
                 }
             </Box>
         </Box >

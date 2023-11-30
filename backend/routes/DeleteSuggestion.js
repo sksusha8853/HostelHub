@@ -1,15 +1,21 @@
 const express = require('express')
 const router = express.Router()
 const Suggestion = require('../models/Suggestion');
+const auth = require("../middleware/auth");
 
-router.post("/deleteSuggestion",
+router.post("/deleteSuggestion",auth,
     async (req, res) => {
-
         try {
+            console.log('req.user.userId', req.user.userId)
             const suggestionId = req.body.suggestionId;
-            const userId = req.body.userId;
-            const userRole = req.user.userRole;
+            const userId = req.user.userId;
+            const userRole = req.user.role;
+            console.log('suggestionId', suggestionId)
+            console.log('userId', userId)
+            console.log('userRole', userRole)
+
             const suggestion = await Suggestion.findOne({ _id: suggestionId });
+            console.log('suggestion', suggestion)
             if ((suggestion.student == userId) || (userRole == "admin")) {
                 await suggestion.deleteOne();
             } else {

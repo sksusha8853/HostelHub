@@ -50,7 +50,7 @@ const Login = ({ login }) => {
             email: data.get("email"),
             password: data.get("password"),
         };
-        login(userDetails, navigate);
+        await login(userDetails, navigate);
     }
 
     return (

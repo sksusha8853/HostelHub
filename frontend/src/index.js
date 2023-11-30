@@ -18,9 +18,8 @@ import SignupStaff from "./screens/SignupStaff";
 import Profile from "./screens/Profile";
 import Complaint from "./screens/Complaint";
 import Suggestion from "./screens/Suggestion";
-import ShowComplaints from "./screens/ShowComplaints";
-import ShowSuggestions from "./screens/ShowSuggestions";
-import SideNavbar from "./dashboard/SideNavbar.js";
+import ShowComplaints from "./dashboard/ShowComplaints.js";
+import ShowSuggestions from "./dashboard/ShowSuggestions.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -30,7 +29,7 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-const store = configureStore(
+export const store = configureStore(
     {
         reducer: persistedReducer,
     },
@@ -45,7 +44,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/dashboard",
-        element: <Dashboard Component="Inbox" />,
+        element: <Dashboard Component="Home" />,
     },
     {
         path: "/login",
@@ -73,11 +72,11 @@ const router = createBrowserRouter([
     },
     {
         path: "/showComplaints",
-        element: <ShowComplaints />,
+        element: <Dashboard Component="Complaints" />,
     },
     {
         path: "/showSuggestions",
-        element: <ShowSuggestions />,
+        element: <Dashboard Component="Suggestions" />,
     }
 ]);
 

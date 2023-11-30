@@ -32,7 +32,7 @@ const SignupStudent = ({ registerStudent }) => {
             flatNumber: data.get("flatNumber"),
             roomNumber: data.get("roomNumber"),
         };
-        registerStudent(userDetails, navigate);
+        await registerStudent(userDetails, navigate);
     }
 
     return (

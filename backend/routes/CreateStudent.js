@@ -4,9 +4,9 @@ const Student = require('../models/Student')
 const { body, validationResult } = require('express-validator');
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs");
+const auth = require("../middleware/auth");
 
-
-router.post("/createstudent", [
+router.post("/createstudent", auth, [
     body('email').isEmail(),
     body('password', 'Password cannot be less than 8 characters.').isLength({ min: 8 }),
     body('gender', 'Please choose your gender.').isLength({ min: 1 }),

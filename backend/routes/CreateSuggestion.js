@@ -3,8 +3,9 @@ const router = express.Router()
 const Suggestion = require('../models/Suggestion')
 const { body, validationResult } = require('express-validator');
 const Student = require('../models/Student');
+const auth = require("../middleware/auth");
 
-router.post("/createsuggestion", [
+router.post("/createsuggestion", auth, [
     body('description', 'Description can\'t be empty.').isLength({ min: 1 }),
 ],
     async (req, res) => {
@@ -14,7 +15,7 @@ router.post("/createsuggestion", [
         }
 
         try {
-            const email = req.body.email;
+            const email = req.user.email;
             const student = await Student.findOne({ email });
             await Suggestion.create({
                 student: student,

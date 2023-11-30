@@ -2,10 +2,11 @@ const express = require('express')
 const router = express.Router()
 const Staff = require('../models/Staff')
 const { body, validationResult } = require('express-validator');
+const auth = require("../middleware/auth");
 
 const bcrypt = require("bcryptjs");
 
-router.post("/createstaff", [
+router.post("/createstaff", auth, [
     body('email').isEmail(),
     body('password', 'Password cannot be less than 8 characters.').isLength({ min: 8 }),
     body('gender', 'Please choose your gender.').isLength({ min: 1 }),

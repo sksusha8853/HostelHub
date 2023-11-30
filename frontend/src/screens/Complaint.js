@@ -30,11 +30,10 @@ const Complaint = ({ postComplaint }) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const complaintDetails = {
-            email: data.get("email"),
             subject: data.get("subject"),
             description: data.get("description"),
         };
-        postComplaint(complaintDetails, navigate);
+        await postComplaint(complaintDetails, navigate);
     }
 
     return (
@@ -45,7 +44,7 @@ const Complaint = ({ postComplaint }) => {
                     <CssBaseline />
                     <Box
                         sx={{
-                            marginTop: 10,
+                            marginTop: 14,
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
@@ -62,17 +61,7 @@ const Complaint = ({ postComplaint }) => {
                             sx={{ mt: 3 }}
                         >
 
-                            <Grid container spacing={2}>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        fullWidth
-                                        id="email"
-                                        label="Email"
-                                        value={user?.email}
-                                        name="email"
-                                        autoComplete="email"
-                                    />
-                                </Grid>
+                            <Grid container spacing={2} sx={{ width: '50vw' }}>
                                 <Grid item xs={12}>
                                     <TextField
                                         fullWidth

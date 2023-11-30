@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const Announcement = require('../models/Announcement');
+const auth = require("../middleware/auth");
 
-router.post("/deleteannouncement",
+router.post("/deleteannouncement", auth,
     async (req, res) => {
 
         try {
